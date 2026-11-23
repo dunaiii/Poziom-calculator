@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10171b">
+  <meta name="description" content="Будова Rush — безкоштовна браузерна аркада: мчи бусом, ухиляйся від перешкод і повертай авто, набираючи очки пішки.">
+  <title>БУДОВА RUSH — гонка на будову</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Будова Rush — головна">
+        <span class="brand-symbol" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>БУДОВА<span class="brand-accent">RUSH</span></span>
+      </a>
+      <span class="topbar-label"><span class="live-dot"></span> БРАУЗЕРНА АРКАДА <span class="version">/ V1.0</span></span>
+    </header>
+
+    <main class="layout">
+      <aside class="intro">
+        <div class="eyebrow"><span class="eyebrow-line"></span> МАРШРУТ № 001 · НА ОБ'ЄКТ</div>
+        <h1>ДОЇХАТИ.<br><em>НЕ ПОПАСТИСЬ.</em></h1>
+        <p class="lead">Звичайна дорога на будову? Не зовсім. Тисни на газ, ухиляйся від пригод і бережи бус. А якщо заберуть — добіжиш.</p>
+        <div class="mini-stats">
+          <div><strong>×1.25</strong><span>ОЧКІВ У БУСІ</span></div>
+          <div><strong>160</strong><span>ОЧОК ДО ПОВЕРНЕННЯ</span></div>
+        </div>
+        <h2 class="section-title">ПЕРЕШКОДИ НА МАРШРУТІ</h2>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon tube" aria-hidden="true">0.0</span><div><strong>Алкотрубка</strong><p>У бусі — кінець рейсу. Пішки — мінус 60 очок.</p></div></div>
+          <div class="rule"><span class="rule-icon cup" aria-hidden="true"><span class="cup-lid"></span><span class="cup-body"></span></span><div><strong>Стаканчик</strong><p>Кермо стає різкішим. На бігу ще й прискорює.</p></div></div>
+          <div class="rule"><span class="rule-icon boss" aria-hidden="true"><span class="boss-hat"></span><span class="boss-face"></span></span><div><strong>Начальство</strong><p>Забирає бус. На бігу — скидає всі очки.</p></div></div>
+        </div>
+        <div class="tip"><span class="tip-mark">i</span><p><strong>Правило повернення:</strong> назбирай 160 очок у режимі бігу — і бус повернеться. Алкотрубка зменшує також прогрес повернення, а начальство обнуляє його.</p></div>
+      </aside>
+
+      <section class="cabinet" aria-label="Ігрова панель">
+        <div class="cabinet-top">
+          <div class="score-block"><span class="score-label">РАХУНОК</span><strong id="scoreValue" aria-live="off">00000</strong></div>
+          <div class="score-block secondary"><span class="score-label">РЕКОРД</span><strong id="bestValue">00000</strong></div>
+          <button class="pause-button" id="pauseButton" type="button" title="Пауза (P / Esc)" aria-label="Пауза" disabled>Ⅱ</button>
+        </div>
+
+        <div class="stage" id="stage">
+          <canvas id="gameCanvas" width="520" height="780" tabindex="0" aria-label="Гра: керуй бусом або бігуном, щоб ухилятись від перешкод"></canvas>
+          <div class="stage-top" aria-hidden="true"><span>ROAD TO WORK</span><span>KM 001 / ∞</span></div>
+          <div id="toast" class="toast" role="status" aria-live="polite"></div>
+          <div id="overlay" class="overlay">
+            <div class="overlay-inner">
+              <div class="overlay-mark" aria-hidden="true"><span class="mark-stripe"></span><span class="mark-stripe"></span><span class="mark-stripe"></span></div>
+              <span class="overlay-kicker" id="overlayKicker">ТВОЯ ЗМІНА ПОЧИНАЄТЬСЯ</span>
+              <h2 id="overlayTitle">ГОТОВИЙ<br>ДО РЕЙСУ?</h2>
+              <p id="overlayDescription">Лавіруй між перешкодами. Алкотрубка в бусі — миттєвий програш, начальство — пересадка на свої дві.</p>
+              <button id="primaryButton" class="primary-button" type="button">ПОЇХАЛИ <span aria-hidden="true">↗</span></button>
+              <span class="overlay-footnote" id="overlayFootnote">← → / A D · НА ТЕЛЕФОНІ — КНОПКИ ЗНИЗУ</span>
+            </div>
+          </div>
+          <div class="touch-controls" aria-label="Керування на телефоні">
+            <button class="touch-button" id="leftButton" aria-label="Рух ліворуч" type="button">◀</button>
+            <button class="touch-button" id="rightButton" aria-label="Рух праворуч" type="button">▶</button>
+          </div>
+        </div>
+
+        <div class="cabinet-bottom">
+          <div class="mode-line"><span class="mode-pill" id="modePill">● БУС</span><span id="rateLabel" class="rate-label">+25 ОЧКІВ / СЕК</span><span id="effectLabel" class="effect-label">КЕРУВАННЯ: НОРМА</span></div>
+          <div id="runGoal" class="run-goal" hidden><div class="goal-header"><span>ДО ПОВЕРНЕННЯ БУСА</span><strong id="progressLabel">0 / 160</strong></div><div class="progress-track"><div id="progressFill" class="progress-fill"></div></div></div>
+          <div class="controls-hint"><span>КЕРУВАННЯ <kbd>←</kbd><kbd>→</kbd> АБО <kbd>A</kbd><kbd>D</kbd></span><span>ПАУЗА <kbd>P</kbd> / <kbd>ESC</kbd></span></div>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>БУДОВА RUSH © 2026 · УСЯ ГРАФІКА НАМАЛЬОВАНА ДЛЯ ЦІЄЇ ГРИ</span><span>ЗРОБЛЕНО ДЛЯ НАСТРОЮ, А НЕ ДЛЯ ДТП</span></footer>
+  </div>
+</body>
+</html>
